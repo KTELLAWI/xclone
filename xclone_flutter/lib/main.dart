@@ -5,8 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xclone_client/xclone_client.dart';
 import 'package:flutter/material.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
+import 'package:xclone_flutter/blocks/feed/feed_block.dart';
+import 'package:xclone_flutter/blocks/feed/feed_event.dart';
 import 'package:xclone_flutter/repositories/post_repository.dart';
 import 'package:xclone_flutter/screens/feed_screen.dart';
+
 
 // Sets up a singleton client object that can be used to talk to the server from
 // anywhere in our app. The client is generated from your server code.
@@ -28,11 +31,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // return MultiRepositoryProvider(
-    //   providers: [RepositoryProvider.value(value: postRepository)],
-    //   child: MultiBlocProvider(providers: [BlocProvider(create: )],
-    //   child:  
-    return  MaterialApp(
+    return MultiRepositoryProvider(
+      providers: [RepositoryProvider.value(value: postRepository)],
+      child: MultiBlocProvider(
+        providers: 
+      [
+        BlocProvider(
+            create: (context) => FeedBloc(postRepository: postRepository)..add(const FeedLoadEvent()),
+          ),
+      ],
+      child:  
+      MaterialApp(
           title: 'X Clone with Flutter and Serverpod',
           theme: ThemeData(
             textSelectionTheme: const TextSelectionThemeData(
@@ -55,8 +64,8 @@ class MyApp extends StatelessWidget {
             // '/edit-profile': (context) => const EditProfileScreen(),
             // '/follow': (context) => const FollowScreen(),
           },
-    //     ),
-    //  )
+        ),
+     )
 
       );
   }
